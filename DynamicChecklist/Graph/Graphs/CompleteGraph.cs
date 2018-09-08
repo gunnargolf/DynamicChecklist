@@ -14,12 +14,12 @@
 
     public class CompleteGraph : StardewGraph
     {
-        private List<GameLocation> gameLocations;
+        private IList<GameLocation> gameLocations;
         private DijkstraShortestPathAlgorithm<StardewVertex, StardewEdge> dijkstra;
         private VertexDistanceRecorderObserver<StardewVertex, StardewEdge> distObserver;
         private VertexPredecessorRecorderObserver<StardewVertex, StardewEdge> predecessorObserver;
 
-        public CompleteGraph(List<GameLocation> gameLocations)
+        public CompleteGraph(IList<GameLocation> gameLocations)
         {
             this.gameLocations = gameLocations;
         }

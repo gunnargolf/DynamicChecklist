@@ -51,8 +51,9 @@
         private void UpdateObjectInfoList(GameLocation loc)
         {
             this.ObjectInfoList.RemoveAll(soi => soi.Location == loc);
+            
 
-            foreach (KeyValuePair<Vector2, StardewValley.Object> o in loc.Objects)
+            foreach (KeyValuePair<Vector2, StardewValley.Object> o in loc.Objects.Pairs)
             {
                 if (o.Value is CrabPot)
                 {

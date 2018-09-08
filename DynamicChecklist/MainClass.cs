@@ -34,7 +34,7 @@
             TimeEvents.AfterDayStarted += this.AfterDayStarted;
             GraphicsEvents.OnPreRenderHudEvent += this.DrawTick;
             GameEvents.OneSecondTick += this.UpdatePaths;
-            LocationEvents.CurrentLocationChanged += this.UpdatePaths;
+            PlayerEvents.Warped += this.UpdatePaths;
 
             OverlayTextures.LoadTextures(this.helper.DirectoryPath);
             try

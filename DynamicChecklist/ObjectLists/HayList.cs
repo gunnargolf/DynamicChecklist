@@ -57,7 +57,7 @@
         private void UpdateObjectInfoList(AnimalHouse animalHouse)
         {
             this.ObjectInfoList.RemoveAll(soi => soi.Location == animalHouse);
-            foreach (KeyValuePair<Vector2, StardewValley.Object> o in animalHouse.Objects)
+            foreach (KeyValuePair<Vector2, StardewValley.Object> o in animalHouse.Objects.Pairs)
             {
                 if (o.Value.Name.Equals("Hay"))
                 {

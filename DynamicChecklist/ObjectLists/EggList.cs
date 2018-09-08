@@ -50,7 +50,7 @@
                 if (building.indoors != null && building.indoors.GetType() == typeof(AnimalHouse))
                 {
                     var animalHouse = (AnimalHouse)building.indoors;
-                    foreach (KeyValuePair<Vector2, StardewValley.Object> obj in animalHouse.Objects)
+                    foreach (KeyValuePair<Vector2, StardewValley.Object> obj in animalHouse.Objects.Pairs)
                     {
                         if (obj.Value.IsSpawnedObject)
                         {

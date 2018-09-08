@@ -76,7 +76,7 @@
 
         private void UpdateObjectInfoList(GameLocation loc)
         {
-            foreach (KeyValuePair<Vector2, TerrainFeature> entry in loc.terrainFeatures)
+            foreach (KeyValuePair<Vector2, TerrainFeature> entry in loc.terrainFeatures.Pairs)
             {
                 var terrainFeature = entry.Value;
                 if (terrainFeature is HoeDirt)
