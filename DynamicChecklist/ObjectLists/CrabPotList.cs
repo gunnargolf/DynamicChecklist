@@ -52,21 +52,23 @@
         {
             this.ObjectInfoList.RemoveAll(soi => soi.Location == loc);
 
-            foreach (KeyValuePair<Vector2, StardewValley.Object> o in loc.Objects)
+            foreach (var o in loc.Objects.Values)
             {
-                if (o.Value is CrabPot)
+                if (o is CrabPot)
                 {
-                    CrabPot currentCrabPot = (CrabPot)o.Value;
-                    var soi = new StardewObjectInfo();
-                    soi.Coordinate = o.Key * Game1.tileSize + new Vector2(Game1.tileSize / 2, Game1.tileSize / 2);
-                    soi.Location = loc;
-                    if (currentCrabPot.readyForHarvest)
+                    CrabPot currentCrabPot = (CrabPot)o;
+                    var soi = new StardewObjectInfo
+                    {
+                        Coordinate = o.TileLocation * Game1.tileSize + new Vector2(Game1.tileSize / 2, Game1.tileSize / 2),
+                        Location = loc
+                    };
+                    if (currentCrabPot.readyForHarvest.Value)
                     {
                         soi.NeedAction = true;
                     }
 
                     // if player is luremaster, crab pots dont need bait
-                    if (currentCrabPot.bait == null && !Game1.player.professions.Contains(11))
+                    if (currentCrabPot.bait.Value == null && !Game1.player.professions.Contains(11))
                     {
                         soi.NeedAction = true;
                     }

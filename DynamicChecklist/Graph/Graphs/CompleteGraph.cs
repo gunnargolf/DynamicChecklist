@@ -19,9 +19,9 @@
         private VertexDistanceRecorderObserver<StardewVertex, StardewEdge> distObserver;
         private VertexPredecessorRecorderObserver<StardewVertex, StardewEdge> predecessorObserver;
 
-        public CompleteGraph(List<GameLocation> gameLocations)
+        public CompleteGraph(IList<GameLocation> gameLocations)
         {
-            this.gameLocations = gameLocations;
+            this.gameLocations = gameLocations.ToList();
         }
 
         public List<PartialGraph> PartialGraphs { get; private set; } = new List<PartialGraph>();
@@ -38,9 +38,9 @@
             var farmBuildings = Game1.getFarm().buildings;
             foreach (Building building in farmBuildings)
             {
-                if (building.indoors != null && building.indoors.GetType() == typeof(AnimalHouse))
+                if (building.indoors.Value != null && building.indoors.GetType() == typeof(AnimalHouse))
                 {
-                    var animalHouse = (AnimalHouse)building.indoors;
+                    var animalHouse = (AnimalHouse)building.indoors.Value;
                     var partialGraph = new PartialGraph(animalHouse);
                     partialGraph.Populate();
                     this.PartialGraphs.Add(partialGraph);
