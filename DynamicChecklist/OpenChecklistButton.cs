@@ -8,6 +8,7 @@
     using DynamicChecklist.ObjectLists;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+    using StardewModdingAPI;
     using StardewModdingAPI.Events;
     using StardewValley;
     using StardewValley.Menus;
@@ -20,7 +21,7 @@
         private Func<int> countRemainingTasks;
         private ModConfig config;
 
-        public OpenChecklistButton(Action openChecklist, Func<int> countRemainingTasks, ModConfig config)
+        public OpenChecklistButton(Action openChecklist, Func<int> countRemainingTasks, ModConfig config, IModHelper helper)
             : base(0, 0, OverlayTextures.Sign.Width * Game1.pixelZoom, OverlayTextures.Sign.Height * Game1.pixelZoom, false)
         {
             this.config = config;
@@ -28,7 +29,9 @@
             this.texture = OverlayTextures.Sign;
             this.openChecklist = openChecklist;
 
-            MenuEvents.MenuClosed += this.OnMenuClosed;
+            helper.Events.Display.MenuChanged += OnMenuClosed;
+
+            // MenuEvents.MenuClosed += this.OnMenuClosed;
             this.UpdateButtonPosition(config.OpenChecklistButtonLocation);
         }
 
@@ -65,9 +68,9 @@
             base.draw(b);
         }
 
-        private void OnMenuClosed(object sender, EventArgsClickableMenuClosed e)
+        private void OnMenuClosed(object sender, MenuChangedEventArgs e)
         {
-            if (e.PriorMenu is ChecklistMenu)
+            if (e.OldMenu is ChecklistMenu)
             {
                 this.UpdateButtonPosition(this.config.OpenChecklistButtonLocation);
             }

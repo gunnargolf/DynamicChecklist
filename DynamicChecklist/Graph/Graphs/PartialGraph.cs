@@ -39,12 +39,12 @@
 
                 foreach (Building building in farmBuildings)
                 {
-                    if (building.indoors != null && building.indoors.GetType() == typeof(AnimalHouse))
+                    if (building.indoors.Value != null && building.indoors.GetType() == typeof(AnimalHouse))
                     {
-                        var doorLoc = new Vector2(building.tileX + building.humanDoor.X, building.tileY + building.humanDoor.Y);
+                        var doorLoc = new Vector2(building.tileX.Value + building.humanDoor.X, building.tileY.Value + building.humanDoor.Y);
 
                         // Target location does not matter since an animal house is always at the end of the path
-                        var vertexNew = new WarpVertex(this.Location, doorLoc, building.indoors, new Vector2(0, 0));
+                        var vertexNew = new WarpVertex(this.Location, doorLoc, building.indoors.Value, new Vector2(0, 0));
                         this.AddVertex(vertexNew);
                     }
                 }

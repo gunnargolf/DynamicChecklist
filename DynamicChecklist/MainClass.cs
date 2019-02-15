@@ -26,16 +26,30 @@
         {
             this.helper = helper;
             this.config = helper.ReadConfig<ModConfig>();
-            helper.WriteConfig(this.config);
-            MenuEvents.MenuChanged += this.MenuChangedEvent;
-            ControlEvents.KeyPressed += this.ReceiveKeyPress;
-            SaveEvents.AfterLoad += this.GameLoadedEvent;
-            SaveEvents.AfterSave += this.OnAfterSave;
-            TimeEvents.AfterDayStarted += this.AfterDayStarted;
-            GraphicsEvents.OnPreRenderHudEvent += this.DrawTick;
-            GameEvents.OneSecondTick += this.UpdatePaths;
-            LocationEvents.CurrentLocationChanged += this.UpdatePaths;
 
+            // helper.WriteConfig(this.config);
+            helper.Events.Display.MenuChanged += this.MenuChangedEvent;
+
+            // MenuEvents.MenuChanged += this.MenuChangedEvent;
+            helper.Events.Input.ButtonPressed += this.ReceiveKeyPress;
+
+            // ControlEvents.KeyPressed += this.ReceiveKeyPress;
+            helper.Events.GameLoop.SaveLoaded += this.GameLoadedEvent;
+
+            // SaveEvents.AfterLoad += this.GameLoadedEvent;
+            // SaveEvents.AfterSave += this.OnAfterSave;
+            helper.Events.GameLoop.DayStarted += this.AfterDayStarted;
+
+            // TimeEvents.AfterDayStarted += this.AfterDayStarted;
+            helper.Events.Display.RenderingHud += this.DrawTick;
+
+            // GraphicsEvents.OnPreRenderHudEvent += this.DrawTick;
+            helper.Events.GameLoop.OneSecondUpdateTicked += this.UpdatePaths;
+
+            // GameEvents.OneSecondTick += this.UpdatePaths;
+            helper.Events.Player.Warped += this.UpdatePaths;
+
+            // LocationEvents.CurrentLocationChanged += this.UpdatePaths;
             OverlayTextures.LoadTextures(this.helper.DirectoryPath);
             try
             {
@@ -59,12 +73,12 @@
             }
         }
 
-        private void OnAfterSave(object sender, EventArgs e)
+        private void OnAfterSave(object sender, SaveLoadedEventArgs e)
         {
             this.helper.WriteConfig(this.config);
         }
 
-        private void DrawTick(object sender, EventArgs e)
+        private void DrawTick(object sender, RenderingHudEventArgs e)
         {
             if (!this.doneLoading || Game1.currentLocation == null || Game1.gameMode == 11 || Game1.currentMinigame != null || Game1.showingEndOfNightStuff || Game1.gameMode == 6 || Game1.gameMode == 0 || Game1.menuUp || Game1.activeClickableMenu != null)
             {
@@ -108,7 +122,7 @@
             }
         }
 
-        private void AfterDayStarted(object sender, EventArgs e)
+        private void AfterDayStarted(object sender, DayStartedEventArgs e)
         {
             foreach (ObjectList ol in this.objectLists)
             {
@@ -196,9 +210,9 @@
             return t;
         }
 
-        private void ReceiveKeyPress(object sender, EventArgsKeyPressed e)
+        private void ReceiveKeyPress(object sender, ButtonPressedEventArgs e)
         {
-            if (e.KeyPressed.ToString() == this.config.OpenMenuKey)
+            if (e.Button.ToString() == this.config.OpenMenuKey)
             {
                 if (Game1.activeClickableMenu is ChecklistMenu)
                 {
@@ -215,7 +229,7 @@
             }
         }
 
-        private void MenuChangedEvent(object sender, EventArgsClickableMenuChanged e)
+        private void MenuChangedEvent(object sender, MenuChangedEventArgs e)
         {
             if (!(e.NewMenu is GameMenu))
             {
@@ -232,7 +246,7 @@
             this.InitializeObjectLists();
             ChecklistMenu.ObjectLists = this.objectLists;
             Func<int> crt = this.CountRemainingTasks;
-            this.checklistButton = new OpenChecklistButton(() => ChecklistMenu.Open(this.config), crt, this.config);
+            this.checklistButton = new OpenChecklistButton(() => ChecklistMenu.Open(this.config), crt, this.config, this.Helper);
             Game1.onScreenMenus.Insert(0, this.checklistButton); // So that click is registered with priority
             this.doneLoading = true;
         }

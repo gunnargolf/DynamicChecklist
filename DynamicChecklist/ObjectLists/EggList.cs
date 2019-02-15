@@ -47,10 +47,10 @@
             var farmBuildings = Game1.getFarm().buildings;
             foreach (Building building in farmBuildings)
             {
-                if (building.indoors != null && building.indoors.GetType() == typeof(AnimalHouse))
+                if (building.indoors.Value != null && building.indoors.GetType() == typeof(AnimalHouse))
                 {
-                    var animalHouse = (AnimalHouse)building.indoors;
-                    foreach (KeyValuePair<Vector2, StardewValley.Object> obj in animalHouse.Objects)
+                    var animalHouse = (AnimalHouse)building.indoors.Value;
+                    foreach (var obj in animalHouse.Objects.Pairs)
                     {
                         if (obj.Value.IsSpawnedObject)
                         {
