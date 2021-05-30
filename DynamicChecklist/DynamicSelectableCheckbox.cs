@@ -26,7 +26,7 @@
             this.labelSize = Game1.dialogueFont.MeasureString(this.label);
         }
 
-        public override void draw(SpriteBatch b, int slotX, int slotY)
+        public override void draw(SpriteBatch b, int slotX, int slotY, IClickableMenu context = null)
         {
             this.isChecked = this.objectList.OverlayActive;
             base.draw(b, slotX, slotY);

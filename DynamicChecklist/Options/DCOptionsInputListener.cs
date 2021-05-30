@@ -93,7 +93,7 @@
             }
         }
 
-        public override void draw(SpriteBatch b, int slotX, int slotY)
+        public override void draw(SpriteBatch b, int slotX, int slotY, IClickableMenu context = null)
         {
             if (this.buttonNames.Count > 0 || this.whichOption == -1)
             {

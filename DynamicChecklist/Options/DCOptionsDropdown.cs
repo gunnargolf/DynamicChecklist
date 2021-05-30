@@ -99,7 +99,7 @@
             this.held = false;
         }
 
-        public override void draw(SpriteBatch b, int slotX, int slotY)
+        public override void draw(SpriteBatch b, int slotX, int slotY, IClickableMenu context = null)
         {
             this.recentSlotY = slotY;
             base.draw(b, slotX, slotY);
